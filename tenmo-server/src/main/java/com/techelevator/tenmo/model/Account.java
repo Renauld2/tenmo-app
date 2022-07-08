@@ -1,9 +1,14 @@
 package com.techelevator.tenmo.model;
 
+import javax.validation.constraints.NotNull;
+
 public class Account {
 
+    @NotNull
     private int accountId;
+    @NotNull
     private int userId;
+    @NotNull
     private double balance;
 
     public Account (int accountId, int userId, double balance) {
