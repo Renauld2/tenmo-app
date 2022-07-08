@@ -2,6 +2,7 @@ package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.UserCredentials;
+import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 
@@ -11,6 +12,7 @@ public class App {
 
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
+    private final AccountService accountService = new AccountService();
 
     private AuthenticatedUser currentUser;
 
@@ -85,7 +87,10 @@ public class App {
     }
 
 	private void viewCurrentBalance() {
+        int userId = 1001;
+        double balance = accountService.getCurrentBalance(userId); //FixMe: UserId should not be hardcoded, that will come from user
 
+        accountService.printBalance(balance);
 	}
 
 	private void viewTransferHistory() {
