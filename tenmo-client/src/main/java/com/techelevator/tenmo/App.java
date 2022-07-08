@@ -57,6 +57,7 @@ public class App {
     private void handleLogin() {
         UserCredentials credentials = consoleService.promptForCredentials();
         currentUser = authenticationService.login(credentials);
+        accountService.setAuthToken(currentUser.getToken()); // had to add this line to get token
         if (currentUser == null) {
             consoleService.printErrorMessage();
         }
@@ -87,9 +88,8 @@ public class App {
     }
 
 	private void viewCurrentBalance() {
-        int userId = 1001;
-        double balance = accountService.getCurrentBalance(userId); //FixMe: UserId should not be hardcoded, that will come from user
 
+        double balance = accountService.getCurrentBalance();
         accountService.printBalance(balance);
 	}
 

@@ -1,8 +1,12 @@
 package com.techelevator.tenmo.dao;
 
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+
+import javax.security.auth.login.AccountNotFoundException;
 
 @Component
 public class JdbcTransferDao implements TransferDao {
@@ -19,8 +23,8 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     @Override
-    public double getTransferById(int transferID) {
-       double transferBalance = 0;
+    public Transfer getTransferById(int transferID) {
+       Transfer transferBalance = null;
 
 
        String sql = "SELECT tenmo_transfer.transfer_id, tenmo_transfer.transfer_type_id," +
@@ -32,27 +36,47 @@ public class JdbcTransferDao implements TransferDao {
                "JOIN tenmo_account accTo ON account_to = accTo.account_id" +
                "WHERE accfrom.user_id ?;";
 
-        transferBalance = jdbcTemplate.queryForObject(sql, double.class, transferID);
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, transferID);
 
+        if (rowSet.next()) {
+            transferBalance = mapRowToTransfer(rowSet);
+        }
         return transferBalance;
     }
 
-    public Transfer createTransfer(Transfer createTransfer){
+
+    @Override
+    public Transfer createTransfer(Transfer transfer) throws AccountNotFoundException {
 
 
-        String sql = "INSERT INTO tenmo_transfer (transfer_id, transfer_status_id, transfer_type_id, account_from, account_to, amount)" +
-                "VALUES (?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO tenmo_transfer (transfer_id, transfer_status_id, transfer_type_id, account_from, account_to, amount) " +
+                "VALUES (?, ?, ?, ?, ?, ?) " +
+                "RETURNING transfer_id;";
 
-        Transfer createTransfer = jdbcTemplate.queryForObject(sql, Integer.class,
-                createTransfer.getTransferId(),
-                createTransfer.getTransferStatusId(),
-                createTransfer.getTransferTypeId(),
-                createTransfer.getAccountFrom(),
-                createTransfer.getAccountTo(),
-                createTransfer.getAmount()) ;
 
-        return null;
+        Integer newTransferId = jdbcTemplate.queryForObject(sql, Integer.class,
+                transfer.getTransferId(),
+                transfer.getTransferStatusId(),
+                transfer.getTransferTypeId(),
+                transfer.getAccountFrom(),
+                transfer.getAccountTo(),
+                transfer.getAmount()) ;
+
+       return getTransferById(newTransferId);
     }
 
+    private Transfer mapRowToTransfer(SqlRowSet rowSet)  {
+        Transfer transfer = new Transfer();
+
+        transfer.setTransferId(rowSet.getInt("transfer_id"));
+        transfer.setTransferStatusId(rowSet.getInt("transfer_status_id"));
+        transfer.setTransferTypeId(rowSet.getInt("transfer_type_id"));
+        transfer.setAccountFrom(rowSet.getInt("account_from"));
+        transfer.setAccountTo(rowSet.getInt("account_to"));
+        transfer.setAmount(rowSet.getDouble("amount"));
+
+        return transfer;
+
+    }
 
 }

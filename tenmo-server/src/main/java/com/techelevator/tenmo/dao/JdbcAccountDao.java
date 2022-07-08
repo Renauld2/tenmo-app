@@ -15,12 +15,17 @@ public class JdbcAccountDao implements AccountDao {
 
     @Override
     public double getCurrentBalance(int userId) {
-        double balance = 0;
+        Double balance = null;
 
         String sql = "SELECT balance " +
                 "FROM tenmo_account " +
                 "WHERE user_id = ?;";
-        balance = jdbcTemplate.queryForObject(sql, double.class, userId);
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, userId);
+
+        if (rowSet.next()) {
+            balance = rowSet.getDouble("balance");
+        }
+       // balance = jdbcTemplate.queryForObject(sql, double.class, userId);
 
         return balance;
     }

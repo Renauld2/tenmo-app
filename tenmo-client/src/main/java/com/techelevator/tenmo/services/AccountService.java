@@ -23,13 +23,12 @@ public class AccountService {
         this.authToken = authToken;
     }
 
-    public double getCurrentBalance(@PathVariable int userId) {
-        //String url = API_BASE_URL + "/balance/" + userId;
-        //double balance = restTemplate.getForObject(url, double.class);
+    public double getCurrentBalance() {
+
         double balance = 0;
 
         try {
-            ResponseEntity<Double> response = restTemplate.exchange(API_BASE_URL + "/balance/" + userId,
+            ResponseEntity<Double> response = restTemplate.exchange(API_BASE_URL + "/balance",
                     HttpMethod.GET, makeAuthEntity(), double.class);
             balance = response.getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
@@ -47,7 +46,6 @@ public class AccountService {
     }
 
     public void printBalance(double balance) {
-
-        System.out.println("Balance: " + balance);
+        System.out.println("Your current balance is: $" + balance);
     }
 }
