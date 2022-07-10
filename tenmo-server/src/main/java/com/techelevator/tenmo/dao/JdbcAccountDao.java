@@ -5,6 +5,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class JdbcAccountDao implements AccountDao {
     private final JdbcTemplate jdbcTemplate;
@@ -54,6 +57,22 @@ public class JdbcAccountDao implements AccountDao {
             accountId = rowSet.getInt("account_id");
         }
         return accountId;
+    }
+
+    public List<Account> getAllAccounts(){
+        List<Account> allAccounts = new ArrayList<>();
+        Account accountId  = null;
+        String sql = "SELECT user_id, username" +
+                "FROM tenmo_user";
+
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
+        while (rowSet.next()) {
+            Account account = mapRowToAccount(rowSet);
+            allAccounts.add(account);
+
+        }
+            return allAccounts;
+
     }
 
     private Account mapRowToAccount(SqlRowSet rowSet)  {
