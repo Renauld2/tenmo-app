@@ -16,7 +16,7 @@ public class AccountController {
 
 
     private final AccountDao accountDao;
-    private UserDao userDao;
+    private final UserDao userDao;
 
 
     public AccountController(AccountDao accountDao, UserDao userDao) {
@@ -32,4 +32,10 @@ public class AccountController {
 
         return accountDao.getCurrentBalance(userId);
     }
+
+
+
+
+
+
 }

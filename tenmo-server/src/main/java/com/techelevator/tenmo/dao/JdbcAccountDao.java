@@ -30,6 +30,32 @@ public class JdbcAccountDao implements AccountDao {
         return balance;
     }
 
+    @Override
+    public double withdraw(double amountToWithdraw, int accountFrom) {
+        return getCurrentBalance(accountFrom) - amountToWithdraw;
+    }
+
+    @Override
+    public double deposit(double amountToDeposit, int accountTo) {
+        return getCurrentBalance(accountTo) + amountToDeposit;
+    }
+
+
+    public int getAccountByAccountId(int userId)   {
+        Integer accountId  = null;
+
+        String sql = "SELECT account_id " +
+                "FROM tenmo_account " +
+                "WHERE user_id = ?;";
+
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, userId);
+
+        if (rowSet.next()) {
+            accountId = rowSet.getInt("account_id");
+        }
+        return accountId;
+    }
+
     private Account mapRowToAccount(SqlRowSet rowSet)  {
         Account mapRowToAccount = new Account();
 

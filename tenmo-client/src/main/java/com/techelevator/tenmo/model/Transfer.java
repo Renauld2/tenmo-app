@@ -2,35 +2,15 @@ package com.techelevator.tenmo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+
 
 public class Transfer {
 
-
-    @NotNull
-    @Min(1)
-    @JsonIgnore
     private int transferId;
-
-    @NotNull
-    @JsonIgnore
     private int transferStatusId;
-
-    @JsonIgnore
-    @NotNull
     private int transferTypeId;
-
-    @NotNull
-    @Min(1)
     private int accountFrom;
-
-    @NotNull
-    @Min(1)
     private int accountTo;
-
-    @NotNull
-    @Min(1)
     private double amount;
 
     public Transfer(int transferId, int transferStatusId, int transferTypeId, int accountFrom, int accountTo, double amount) {

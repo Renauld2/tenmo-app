@@ -49,13 +49,13 @@ public class JdbcTransferDao implements TransferDao {
     public Transfer createTransfer(Transfer transfer) throws AccountNotFoundException {
 
 
-        String sql = "INSERT INTO tenmo_transfer (transfer_id, transfer_status_id, transfer_type_id, account_from, account_to, amount) " +
+        String sql = "INSERT INTO tenmo_transfer (transfer_status_id, transfer_type_id, account_from, account_to, amount) " +
                 "VALUES (?, ?, ?, ?, ?, ?) " +
                 "RETURNING transfer_id;";
 
 
         Integer newTransferId = jdbcTemplate.queryForObject(sql, Integer.class,
-                transfer.getTransferId(),
+                //transfer.getTransferId(),
                 transfer.getTransferStatusId(),
                 transfer.getTransferTypeId(),
                 transfer.getAccountFrom(),
