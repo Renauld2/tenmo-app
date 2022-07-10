@@ -2,13 +2,15 @@ package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.dao.AccountDao;
 import com.techelevator.tenmo.dao.UserDao;
+import com.techelevator.tenmo.model.Account;
+import com.techelevator.tenmo.model.User;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.security.auth.login.AccountNotFoundException;
+import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @PreAuthorize("isAuthenticated()")
@@ -25,12 +27,22 @@ public class AccountController {
     }
 
 
+
     @RequestMapping(value = "/balance", method = RequestMethod.GET)
     public double getBalanceForUser(Principal principal) {
         String username = principal.getName();
         int userId = userDao.findIdByUsername(username);
 
         return accountDao.getCurrentBalance(userId);
+    }
+
+
+
+
+    @RequestMapping(path = "/tenmo_account", method = RequestMethod.GET)
+    public List<User> getAllAccounts() {
+
+        return userDao.findAll();
     }
 
 

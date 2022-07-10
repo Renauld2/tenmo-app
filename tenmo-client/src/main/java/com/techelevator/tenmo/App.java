@@ -60,6 +60,7 @@ public class App {
     private void handleLogin() {
         UserCredentials credentials = consoleService.promptForCredentials();
         currentUser = authenticationService.login(credentials);
+        transferService.setAuthToken(currentUser.getToken());
         accountService.setAuthToken(currentUser.getToken()); // had to add this line to get token
         if (currentUser == null) {
             consoleService.printErrorMessage();
@@ -109,9 +110,10 @@ public class App {
 	private void sendBucks() {
        // System.out.println(transferService.askForUserId());
        // accountService.getCurrentBalance(transferService.createSendBucks().getAccountFrom());
-
-        Transfer transfer = transferService.createSendBucks();
+        Transfer transfer = new Transfer();
         transferService.printSendBucks(transfer);
+        transferService.createSendBucks(transfer);
+
 
 
 

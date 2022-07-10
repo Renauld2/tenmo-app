@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.services;
 
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.util.BasicLogger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +12,8 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccountService {
 
@@ -35,9 +38,11 @@ public class AccountService {
             BasicLogger.log(e.getMessage());
         }
 
-            return balance;
+        return balance;
 
     }
+
+
 
     private HttpEntity<Void> makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();

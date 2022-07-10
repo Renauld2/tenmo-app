@@ -58,11 +58,11 @@ public class JdbcAccountDao implements AccountDao {
         }
         return accountId;
     }
-
+    @Override
     public List<Account> getAllAccounts(){
         List<Account> allAccounts = new ArrayList<>();
-        Account accountId  = null;
-        String sql = "SELECT user_id, username" +
+
+        String sql = "SELECT user_id, username  " +
                 "FROM tenmo_user";
 
         SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
