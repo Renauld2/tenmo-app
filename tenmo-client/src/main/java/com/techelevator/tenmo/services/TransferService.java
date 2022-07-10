@@ -103,7 +103,7 @@ public class TransferService {
         String userSelection = userInput.nextLine();
 
         if (userSelection == "Y" || userSelection == "y") {
-            Transfer  transfer1 = new Transfer();
+            Transfer transfer1 = new Transfer();
            //String confirmedAmountToSend = createSendBucks(transfer.setAmount(Double.parseDouble(sendingAmount)));
             double confirmedAmountToSend  = accountService.withdrawAmountToSend(Double.parseDouble(sendingAmount));
 

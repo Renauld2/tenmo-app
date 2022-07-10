@@ -38,15 +38,20 @@ public class AccountController {
 
 
 
-
     @RequestMapping(path = "/tenmo_account", method = RequestMethod.GET)
     public List<User> getAllAccounts() {
 
         return userDao.findAll();
     }
 
+    public void makeWithdraw(double amountToWithdraw, int accountFrom) {
+        accountDao.withdraw(amountToWithdraw, accountFrom);
 
+    }
 
+    public void makeDeposit(double amountToDeposit, int accountTo) {
+        accountDao.deposit(amountToDeposit, accountTo);
+    }
 
 
 
