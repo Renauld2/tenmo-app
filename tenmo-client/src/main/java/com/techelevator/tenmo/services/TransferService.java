@@ -19,6 +19,8 @@ public class TransferService {
     private static final String API_BASE_URL = "http://localhost:8080";
 
 
+
+
     private AccountService accountService = new AccountService();
     private String authToken = null;
 
@@ -101,7 +103,11 @@ public class TransferService {
         String userSelection = userInput.nextLine();
 
         if (userSelection == "Y" || userSelection == "y") {
-            //String confirmedAmountToSend = createSendBucks(transfer.setAmount(Double.parseDouble(sendingAmount)));
+            Transfer  transfer1 = new Transfer();
+           //String confirmedAmountToSend = createSendBucks(transfer.setAmount(Double.parseDouble(sendingAmount)));
+            double confirmedAmountToSend  = accountService.withdrawAmountToSend(Double.parseDouble(sendingAmount));
+
+            //transfer1 = createSendBucks().setAmount(confirmedAmountToSend);
         } else if (userSelection == "N" || userSelection == "n"){
             System.out.println("Cancelling Transaction");
         }

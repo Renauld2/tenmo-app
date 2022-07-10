@@ -34,13 +34,21 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public double withdraw(double amountToWithdraw, int accountFrom) {
-        return getCurrentBalance(accountFrom) - amountToWithdraw;
+    public void withdraw(double amountToWithdraw, int accountFrom) {
+        //return getCurrentBalance(accountFrom) - amountToWithdraw;
+        String sql = "UPDATE tenmo_account " +
+                "SET balance =  balance - ?" +
+                "WHERE user_id  = ?;";
+        jdbcTemplate.update(sql, amountToWithdraw, accountFrom);
     }
 
     @Override
-    public double deposit(double amountToDeposit, int accountTo) {
-        return getCurrentBalance(accountTo) + amountToDeposit;
+    public void deposit(double amountToDeposit, int accountTo) {
+        String sql = "UPDATE tenmo_account " +
+                "SET balance  = balance +  ? " +
+                "WHERE user_id;";
+
+        jdbcTemplate.update(sql, amountToDeposit, accountTo);
     }
 
 

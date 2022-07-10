@@ -42,6 +42,14 @@ public class AccountService {
 
     }
 
+    public double withdrawAmountToSend(double withdrawAmount) {
+
+
+        double amountToWithdraw =  getCurrentBalance() - withdrawAmount;
+        return amountToWithdraw;
+
+    }
+
 
 
     private HttpEntity<Void> makeAuthEntity() {
