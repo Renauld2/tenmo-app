@@ -1,16 +1,13 @@
 package com.techelevator.tenmo.services;
 
-import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.util.BasicLogger;
-import io.cucumber.java.en_old.Ac;
 import org.springframework.http.*;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class TransferService {
@@ -31,11 +28,15 @@ public class TransferService {
 
     public Transfer createSendBucks(Transfer transfer) {
 
+        System.out.println("********");
+        System.out.println(transfer);
 
         try {
             ResponseEntity<Transfer> response = restTemplate.exchange(API_BASE_URL + "/tenmo_transfer",
                     HttpMethod.POST, makeTransferEntity(transfer), Transfer.class);
-            transfer = response.getBody();
+            if (response.hasBody()) {
+                transfer = response.getBody();
+            }
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
@@ -97,17 +98,24 @@ public class TransferService {
         String userId = askForUserId();
         String sendingAmount = askForAmountToSend();
 
+        int userIdToSendTo = Integer.parseInt(askForUserId());
+        double amountToSend = Double.parseDouble(askForAmountToSend());
+
         Scanner userInput = new Scanner(System.in);
         System.out.println("You are sending: $" + sendingAmount + " To userId " + userId);
         System.out.println("Are you Sure? (Y/N)");
         String userSelection = userInput.nextLine();
 
-        if (userSelection == "Y" || userSelection == "y") {
-            Transfer transfer1 = new Transfer();
-           //String confirmedAmountToSend = createSendBucks(transfer.setAmount(Double.parseDouble(sendingAmount)));
-            double confirmedAmountToSend  = accountService.withdrawAmountToSend(Double.parseDouble(sendingAmount));
+        if (userSelection.equals("Y") || userSelection.equals("y")) {
 
-            //transfer1 = createSendBucks().setAmount(confirmedAmountToSend);
+//            accountService.withdrawAmountToSend(amountToSend);
+//            accountService.depositAmountToSend(amountToSend);
+
+            transfer.setAccountTo(userIdToSendTo);
+            transfer.setAmount(amountToSend);
+
+            createSendBucks(transfer);
+
         } else if (userSelection == "N" || userSelection == "n"){
             System.out.println("Cancelling Transaction");
         }

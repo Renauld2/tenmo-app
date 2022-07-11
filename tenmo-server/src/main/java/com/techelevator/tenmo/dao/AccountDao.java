@@ -8,9 +8,9 @@ public interface AccountDao {
 
     double getCurrentBalance(int user_Id);
 
-    void withdraw(double amountToWithdraw, int accountFrom);
+    double withdraw(double amountToWithdraw, int accountFrom);
 
-    void deposit(double amountToDeposit, int accountTo);
+    double deposit(double amountToDeposit, int accountTo);
 
     int getAccountByAccountId(int userId);
 

@@ -29,14 +29,27 @@ public class TransferController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/tenmo_transfer", method = RequestMethod.POST)
     public void createTransfer(@Valid @RequestBody Transfer transfer) throws AccountNotFoundException {
+
+        System.out.println("DEBUG");
+        System.out.println(transfer);
+
        int accountFrom = accountDao.getAccountByAccountId(transfer.getAccountFrom());
        int accountTo = accountDao.getAccountByAccountId(transfer.getAccountTo());
+
+        System.out.println(accountFrom);
+        System.out.println(accountTo);
+        transfer.setAccountFrom(accountFrom);
+        transfer.setAccountTo(accountTo);
+
        double transferAmount = transfer.getAmount();
 
+
        accountDao.withdraw(transferAmount, accountFrom);
-       accountDao.deposit(transferAmount, accountTo);
+       accountDao.deposit(transferAmount, accountTo); //FixMe these are not performing correctly
+
 
        transferDao.createTransfer(transfer);
+
     }
 
 

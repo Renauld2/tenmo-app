@@ -11,4 +11,8 @@ public interface TransferDao {
     Transfer getTransferById(int transferId);
 
     Transfer createTransfer(Transfer transfer) throws AccountNotFoundException;
+
+    double withdraw(double amountToWithdraw, int accountFrom);
+
+    double deposit(double amountToDeposit, int accountTo);
 }

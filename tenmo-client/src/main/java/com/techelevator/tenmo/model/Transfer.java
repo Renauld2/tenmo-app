@@ -1,16 +1,26 @@
 package com.techelevator.tenmo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-
 
 public class Transfer {
 
     private int transferId;
     private int transferStatusId;
     private int transferTypeId;
-    private int accountFrom;
-    private int accountTo;
+
+    @Override
+    public String toString() {
+        return "Transfer{" +
+                "transferId=" + transferId +
+                ", transferStatusId=" + transferStatusId +
+                ", transferTypeId=" + transferTypeId +
+                ", accountFrom=" + accountFrom +
+                ", accountTo=" + accountTo +
+                ", amount=" + amount +
+                '}';
+    }
+
+    private long accountFrom;
+    private long accountTo;
     private double amount;
 
     public Transfer(int transferId, int transferStatusId, int transferTypeId, int accountFrom, int accountTo, double amount) {
@@ -25,7 +35,6 @@ public class Transfer {
     public Transfer() {
 
     }
-
 
     public int getTransferId() {
         return transferId;
@@ -43,19 +52,19 @@ public class Transfer {
         this.transferTypeId = transferTypeId;
     }
 
-    public int getAccountFrom() {
+    public long getAccountFrom() {
         return accountFrom;
     }
 
-    public void setAccountFrom(int accountFrom) {
+    public void setAccountFrom(long accountFrom) {
         this.accountFrom = accountFrom;
     }
 
-    public int getAccountTo() {
+    public long getAccountTo() {
         return accountTo;
     }
 
-    public void setAccountTo(int accountTo) {
+    public void setAccountTo(long accountTo) {
         this.accountTo = accountTo;
     }
 

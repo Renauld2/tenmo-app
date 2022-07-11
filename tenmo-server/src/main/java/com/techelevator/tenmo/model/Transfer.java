@@ -7,10 +7,6 @@ import javax.validation.constraints.NotNull;
 
 public class Transfer {
 
-
-    @NotNull
-    @Min(1)
-    @JsonIgnore
     private int transferId;
 
     @NotNull
@@ -32,6 +28,18 @@ public class Transfer {
     @NotNull
     @Min(1)
     private double amount;
+
+    @Override
+    public String toString() {
+        return "Transfer{" +
+                "transferId=" + transferId +
+                ", transferStatusId=" + transferStatusId +
+                ", transferTypeId=" + transferTypeId +
+                ", accountFrom=" + accountFrom +
+                ", accountTo=" + accountTo +
+                ", amount=" + amount +
+                '}';
+    }
 
     public Transfer(int transferId, int transferStatusId, int transferTypeId, int accountFrom, int accountTo, double amount) {
         this.transferId = transferId;

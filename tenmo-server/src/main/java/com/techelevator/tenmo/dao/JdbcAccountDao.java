@@ -3,6 +3,7 @@ package com.techelevator.tenmo.dao;
 import com.techelevator.tenmo.model.Account;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class JdbcAccountDao implements AccountDao {
     public JdbcAccountDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
 
     @Override
     public double getCurrentBalance(int userId) {
@@ -34,21 +36,27 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public void withdraw(double amountToWithdraw, int accountFrom) {
+    public double withdraw(double amountToWithdraw, int accountFrom) {
         //return getCurrentBalance(accountFrom) - amountToWithdraw;
+
+        System.out.println("hello?");
+        System.out.println(amountToWithdraw);
+        System.out.println(accountFrom);
+
         String sql = "UPDATE tenmo_account " +
                 "SET balance =  balance - ?" +
                 "WHERE user_id  = ?;";
-        jdbcTemplate.update(sql, amountToWithdraw, accountFrom);
+       return jdbcTemplate.update(sql, amountToWithdraw, accountFrom);
+
     }
 
     @Override
-    public void deposit(double amountToDeposit, int accountTo) {
+    public double deposit(double amountToDeposit, int accountTo) {
         String sql = "UPDATE tenmo_account " +
-                "SET balance  = balance +  ? " +
-                "WHERE user_id;";
+                "SET balance = balance +  ? " +
+                "WHERE user_id = ?;";
 
-        jdbcTemplate.update(sql, amountToDeposit, accountTo);
+       return jdbcTemplate.update(sql, amountToDeposit, accountTo);
     }
 
 

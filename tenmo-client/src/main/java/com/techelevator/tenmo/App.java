@@ -108,15 +108,16 @@ public class App {
 	}
 
 	private void sendBucks() {
-       // System.out.println(transferService.askForUserId());
-       // accountService.getCurrentBalance(transferService.createSendBucks().getAccountFrom());
+
+
         Transfer transfer = new Transfer();
+        transfer.setAccountFrom(currentUser.getUser().getId());
+        transfer.setTransferTypeId(2);
+        transfer.setTransferStatusId(2);
+//        double newBalanceWithdraw = accountService.withdrawAmountToSend(transfer.getAmount());
+//        double newBalanceDeposit = accountService.depositAmountToSend(transfer.getAmount());
         transferService.printSendBucks(transfer);
-        transferService.createSendBucks(transfer);
-        //accountService.
-
-
-
+//        transferService.createSendBucks(transfer);
 
 	}
 

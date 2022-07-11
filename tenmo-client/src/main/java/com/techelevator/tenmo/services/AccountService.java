@@ -6,14 +6,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
-
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AccountService {
 
@@ -44,12 +39,17 @@ public class AccountService {
     }
 
     public double withdrawAmountToSend(double withdrawAmount) {
-
-
-        double amountToWithdraw =  getCurrentBalance() - withdrawAmount;
-        return amountToWithdraw;
+            return getCurrentBalance() - withdrawAmount;
 
     }
+
+    public double depositAmountToSend(double depositAmount) {
+        return getCurrentBalance() +  depositAmount;
+    }
+
+//    public Account accountWithdrawingFrom(Account accounToWithdraw) {
+//
+//    }
 
 
 
